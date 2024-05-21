@@ -3,8 +3,8 @@ from spl.token.client import Token
 from solana.rpc.api  import Client
 from spl.token.constants import TOKEN_PROGRAM_ID
 from solders.keypair import Keypair
-from solders.pubkey import Pubkey
 from solana.exceptions import *
+from solana.rpc.core import RPCException
 import info2 as stored_
 
 
@@ -73,31 +73,33 @@ class devnet_token:
         Owner=self.mint_authority.pubkey()
         
         print(f'Creating token......')
-        token=Token.create_mint(self.client,                                                                  #create token mint
+        try:
+            token=Token.create_mint(self.client,                                                                  #create token mint
                                 self.mint_authority,
                                 self.mint_authority.pubkey(),
                                 0,
                                 TOKEN_PROGRAM_ID,
                                 self.mint_authority.pubkey())
-        print(f'successfully created the token <<{token.pubkey}>> \n')
+            print(f'successfully created the token <<{token.pubkey}>> \n')
+            
+            print('Creating associated token account......\n')
+            token_account=Token.create_associated_token_account(token,                                          #create associated token account
+                                                        Owner )
+            print(f'The token account <<{token_account}>> has been successfully created\n')
         
-        print('Creating associated token account......\n')
-        token_account=Token.create_associated_token_account(token,                                          #create associated token account
-                                                       Owner )
-        print(f'The token account <<{token_account}>> has been successfully created\n')
-     
-     
-        amount=int(input("Enter token amount  you want to request to mint to: "))                           # prompt theuser to enter the number of token that you want to mint
-        if amount<=0:                                                                                       #check if the amount is positive
-            print("TRY AGAIN:run the method again using a number > 0 ")
-            sys.exit(1)
-        else:
-            amount=amount *(10**amount)          
-        print(f'Minting {amount} tokens to the account {token_account}\n')     
-        mint=token.mint_to(token_account,self.mint_authority,amount)                                        #mint the token to tha associated token account
-        print(f'{amount} tokens has been successfully minted to the account {token_account}')
-        print(Token.get_accounts_by_owner(token,Owner))
         
+            amount=int(input("Enter token amount  you want to request to mint to: "))                           # prompt theuser to enter the number of token that you want to mint
+            if amount<=0:                                                                                       #check if the amount is positive
+                print("TRY AGAIN:run the method again using a number > 0 ")
+                sys.exit(1)
+            else:
+                amount=amount *(10**amount)          
+            print(f'Minting {amount} tokens to the account {token_account}\n')     
+            mint=token.mint_to(token_account,self.mint_authority,amount)                                        #mint the token to tha associated token account
+            print(f'{amount} tokens has been successfully minted to the account {token_account}')
+            print(Token.get_accounts_by_owner(token,Owner))
+        except RPCException as e:
+            print('Error: You have insufficient sol to create the token \nTry again after airdropping some SOL',)
         
         
         
@@ -105,7 +107,7 @@ class devnet_token:
         
         
 if __name__=='__main__':
-    # token=devnet_token()
-    # token.generate_key()
+    token=devnet_token()
+    # # token.generate_key()
     # token.airdrop_sol()
     # token.create_mint_token()
