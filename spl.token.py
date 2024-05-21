@@ -105,7 +105,7 @@ class devnet_token:
         
         
 if __name__=='__main__':
-    token=devnet_token()
+    # token=devnet_token()
     # token.generate_key()
-    token.airdrop_sol()
-    token.create_mint_token()
+    # token.airdrop_sol()
+    # token.create_mint_token()
