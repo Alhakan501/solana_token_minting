@@ -1,0 +1,46 @@
+Devnet Token Management Script Explanation
+
+This script is designed to facilitate token management on the Solana Devnet. It provides functionalities for key pair generation, requesting SOL airdrops, and minting tokens to associated token accounts.
+
+1. Key Pair Generation:
+   - To generate a key pair, execute the following code:
+     ```
+     token = devnet_token()
+     token.generate_key()
+     ```
+   - This method generates a key pair using the `Keypair` class from the `solders` module and stores it in a file named `info2.py`.
+
+2. Requesting SOL Airdrop:
+   - To request a SOL airdrop, execute the following code:
+     ```
+     token.airdrop_sol()
+     ```
+   - This method requests a SOL airdrop to the public key generated earlier and stored in `info2.py`.
+   - You'll be prompted to enter the amount of SOL you want to request in lamports.
+
+3. Creating and Minting Tokens:
+   - To create and mint tokens, execute the following code:
+     ```
+     token.create_mint_token()
+     ```
+   - This method creates a token mint, associated token account, and mints tokens to the associated account.
+   - The public key generated earlier serves as the mint authority and the owner of the associated token account.
+   - You'll be prompted to enter the amount of tokens you want to mint.
+
+Installation:
+- Ensure Python is installed on your system.
+- Install the required dependencies using pip:
+
+
+
+Usage:
+- Import the necessary modules and classes at the beginning of your Python script.
+- Follow the usage instructions provided above for key pair generation, SOL airdrop requests, and token minting.
+
+Important Notes:
+- Ensure you have sufficient SOL balance on the Devnet to perform token minting and airdrop operations.
+- This script is intended for use on the Solana Devnet for testing purposes.
+- Use at your own risk, and make sure you understand the operations being performed.
+
+Contributors:
+- Developer: Alhakan501
