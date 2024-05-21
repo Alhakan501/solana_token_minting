@@ -4,7 +4,6 @@ This Python script facilitates token management on the Solana Devnet. It allows 
 ## Usage
 
   # Generating Key Pair
-  token = devnet_token()
   token.generate_key()
 
 
